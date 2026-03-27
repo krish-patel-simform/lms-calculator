@@ -59,8 +59,6 @@ a{
         filter: brightness(125%);
     }
 }
-
- 
 .nobg{
     background: none;
 }
@@ -78,7 +76,7 @@ a{
 }
 
 .container{
-    /* height: 70%; */
+    height: 75%;
     max-width: min(1000px,90vw);
     display: flex;
     width: 100%;
@@ -98,7 +96,7 @@ a{
  
 /* screen */
 .calculator-screen{
-    flex-grow: 4;
+    flex: 4 1 150px;
     display: flex;
     flex-direction: column;
 }
@@ -158,8 +156,7 @@ a{
  
 /* operations */
 .calculator-operation{
-    flex-grow: 6;
-    flex-shrink: 0;
+    flex: 6;
     display: flex;
     flex-direction: column;
     padding: var(--rem-half);
@@ -244,6 +241,7 @@ a{
 .history__content{
     flex: 9;
     overflow-y: auto;
+    overflow-x: auto;
     scrollbar-width: thin;
 
     color: var(--color-text-white);
