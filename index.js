@@ -15,7 +15,7 @@ keyPad.addEventListener('click',(e)=>{
    
     switch(value)
     {
-        case "equals":
+        case "equals-":
             equals();
             break;
         case "clear":
