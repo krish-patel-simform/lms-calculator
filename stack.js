@@ -190,3 +190,5 @@ export function infixEvalution(expression) {
 //! -89+89 ?
 //^ handle . case (might be handled)
 //! (1/2)
+//! handle unary with binary 
+
