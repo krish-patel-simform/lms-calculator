@@ -71,7 +71,7 @@ function handlePrecidence(currentOperator) {
         // check for precidence
         // console.log("operator Top : ",operatorStack.top())
         if (precidence[currentOperator] < precidence[operatorStack.top()]) {
-            while (!operatorStack.isEmpty() && precidence[operatorStack.top()] > precidence[currentOperator]) {
+            while (!operatorStack.isEmpty() && precidence[operatorStack.top()] >= precidence[currentOperator]) {
                 // pop from the operator stack and then twice pop from operand stack
 
                 const operator = operatorStack.pop()
