@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lms Calculator</title>
     <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./responsive.css">
 </head>
 <body class="main-container">
     <main class="container">
@@ -24,7 +25,9 @@
  
                 <!-- screen -->
                 <div class="calculator-screen__display">
-                    <span>0</span>
+                    <div class="calculator-screen__display--wrapper">
+                        <input type="text" id="screen" placeholder="0"/>
+                    </div>
                 </div>
  
                 <!-- math function -->
@@ -69,7 +72,7 @@
                     <button data-value="clear" class="btn">C</button>
                     <button data-value="erase" class="btn"><img src="./icons/icons8-remove-30.png" alt="Erase" /></button>
                     <button data-value="square" class="btn">x<sup>2</sup></button>
-                    <button class="btn">1/x</button>
+                    <button data-value="(1/"  class="btn">1/x</button>
                     <button class="btn">⌈x⌉</button>
                     <button data-value="^" class="btn">exp</button>
                     <button class="btn">mod</button>
@@ -78,7 +81,7 @@
                     <button data-value=")" class="btn">)</button>
                     <button data-value="factorial" class="btn">n!</button>
                     <button data-value="/" class="btn">&divide;</button>
-                    <button class="btn">x<sup>y</sup></button>
+                    <button data-value="^" class="btn">x<sup>y</sup></button>
                     <button data-value="7" class="btn calculator-operation__buttons--light">7</button>
                     <button data-value="8" class="btn calculator-operation__buttons--light">8</button>
                     <button data-value="9" class="btn calculator-operation__buttons--light">9</button>
@@ -96,7 +99,7 @@
                     <button class="btn">ln</button>
                     <button class="btn calculator-operation__buttons--light">±</button>
                     <button data-value="0" class="btn calculator-operation__buttons--light">0</button>
-                    <button class="btn calculator-operation__buttons--light">.</button>
+                    <button data-value="." class="btn calculator-operation__buttons--light">.</button>
                     <button data-value="equals" class="btn">=</button>
  
                 </div>
@@ -126,7 +129,8 @@
  
     </main>
 
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./stack.js"></script>
 </body>
 </html>
  
