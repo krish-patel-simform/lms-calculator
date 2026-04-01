@@ -5,7 +5,6 @@ Array.prototype.top = function () {
     return this[this.length - 1];
 }
 
-// const stack = []
 let operandStack;
 let operatorStack;
 
@@ -21,6 +20,15 @@ const precidence = {
     ')': 0
 }
 
+const operaorOperands = {
+    '+': 2,
+    '-': 2,
+    '*': 2,
+    '/': 2,
+    '%': 2,
+    '√': 1,
+    'log': 1,
+}
 
 function isOperator(index) {
     return Boolean(precidence[operatorStack.at(index)])
@@ -32,9 +40,14 @@ function handleClosing() {
         const operator = operatorStack.pop()
 
         const operand2 = operandStack.pop()
-        const operand1 = operandStack.pop()
+        if (operaorOperands[operator] >= 2) {
+            const operand1 = operandStack.pop()
+            operandStack.push(evaluate(operator, operand1, operand2))
+        }
+        else {
+            operandStack.push(evaluate(operator, undefined, operand2))
+        }
 
-        operandStack.push(evaluate(operator, operand1, operand2))
     }
     operatorStack.pop()
 }
@@ -60,33 +73,41 @@ function evaluate(operator, operand1, operand2) {
         case '^':
             result = operand1 ** operand2
             break;
+        case '√':
+            result = Math.sqrt(operand2);
+            break;
+        case 'log':
+            result = Math.log10(operand2);
+            break;
     }
     return result
 }
 
 function handlePrecidence(currentOperator) {
-    //if top is operator
-    // console.log("Inside an Handle Precidnce : is Operator", isOperator(operatorStack.length-1))
-    if (isOperator(operatorStack.length - 1)) {
-        // check for precidence
-        // console.log("operator Top : ",operatorStack.top())
-        if (precidence[currentOperator] < precidence[operatorStack.top()]) {
-            while (!operatorStack.isEmpty() && precidence[operatorStack.top()] >= precidence[currentOperator]) {
-                // pop from the operator stack and then twice pop from operand stack
 
+    if (isOperator(operatorStack.length - 1)) {
+
+        // check for precidence
+        if (precidence[currentOperator] <= precidence[operatorStack.top()]) {
+            while (!operatorStack.isEmpty() && precidence[operatorStack.top()] >= precidence[currentOperator]) {
+        
                 const operator = operatorStack.pop()
                 const operand2 = operandStack.pop()
-                const operand1 = operandStack.pop()
-
-                // eveluate it and push it
-                operandStack.push(evaluate(operator, operand1, operand2))
+        
+                if (operaorOperands[operator] >= 2) {
+                    const operand1 = operandStack.pop()
+                    operandStack.push(evaluate(operator, operand1, operand2))
+                }
+                else {
+                    operandStack.push(evaluate(operator, undefined, operand2))
+                }
 
             }
         }
     }
-    // console.log("going to push")
+    
     operatorStack.push(currentOperator)
-    // console.log(operatorStack)
+    
 }
 
 function handleOperation(char) {
@@ -109,10 +130,15 @@ function handleOperation(char) {
         case '-':
             handlePrecidence(char)
             break;
+        case '√':
+            operatorStack.push(char)
+            break;
+        case 'log':
+            operatorStack.push(char);
+            break;
         default:
-            //here operand come so just append to the result
             operandStack.push(Number(char))
-        // prefixExpression += char
+            console.log("after Pushing :", operandStack)
     }
 }
 
@@ -120,60 +146,69 @@ export function infixEvalution(expression) {
     operatorStack = new Array()
     operandStack = new Array()
     operandStack.push(0)
+    console.log(expression.length)
 
     let numberString = '';
-    // for(const char of expression)
-    // console.log("called : ",expression)
+    const charRegex = /^[a-zA-Z]+$/;
+    let charString = '';
+
     for (let i = 0; i < expression.length; i++) {
-        // console.log("i",i,expression[i]);
-
-        // console.log("condition:",!precidence[expression[i]])
-        // 
-        // if (expression[i] === '(' || expression[i] === ')') {
-        //     handleOperation(expression[i])
-        // }
-        // else if (!precidence[expression[i]]) {
-        //     numberString += expression[i];
-        //     if ((i < expression.length && precidence[expression[i + 1]]) || i === expression.length - 1) {
-        //         // console.log(numberString)
-        //         handleOperation(numberString)
-        //         numberString = '';
-        //     }
-        // }
-        // else {
-        //     // console.log(expression[i])
-        //     handleOperation(expression[i])
-        // }
-
-        if(!Number.isNaN(Number(expression[i])) || expression[i] === '.')
-        {
+        
+        if (!Number.isNaN(Number(expression[i])) || expression[i] === '.') {
             numberString += expression[i];
-            if((i< expression.length && Number.isNaN(Number(expression[i+1])) && expression[i+1] !== '.') || i === expression.length - 1)
-            {
-                console.log("before handle:",numberString)
+            if ((i < expression.length && Number.isNaN(Number(expression[i + 1])) && expression[i + 1] !== '.') || i === expression.length - 1) {
+                console.log("before handle:", numberString)
                 handleOperation(numberString)
                 numberString = '';
             }
         }
-        else
-        {
-            handleOperation(expression[i])
+        else {
+            if (charRegex.test(expression[i])) {
+                //append it 
+                console.log("regex called", expression[i])
+                charString += expression[i];
+            }
+            else {
+                if (charString) {
+                    // push to operator
+                    handleOperation(charString)
+                    charString = '';
+                }
+                // check if function is there so first push it then push operator 
+
+                console.log("operator found:", expression[i])
+                handleOperation(expression[i])
+            }
         }
     }
 
+    // console.log(operatorStack)
+    // console.log(operandStack)
     //check if operatorStack is Empty
     // console.log("Stack is Empty:",operatorStack.isEmpty())
+    
     while (!operatorStack.isEmpty()) {
-        // console.log("operatorStack is EMpty:",operatorStack.isEmpty())
+        console.log("operatorStack is EMpty:", operatorStack.isEmpty())
         const operator = operatorStack.pop()
 
         const operand2 = operandStack.pop()
-        const operand1 = operandStack.pop()
-
-        operandStack.push(evaluate(operator, operand1, operand2))
+        // const operand1 = operandStack.pop()
+        
+        
+        // console.log(operator, operand1, operand2)
+        // operandStack.push(evaluate(operator, operand1, operand2))
+        if(operaorOperands[operator] >= 2)
+        {
+            const operand1 = operandStack.pop()
+            operandStack.push(evaluate(operator, operand1, operand2))
+        }
+        else
+        {
+            operandStack.push(evaluate(operator, undefined, operand2))
+        }
     }
 
-    console.log(operandStack.top())
+    console.log("Answer:",operandStack.top())
     return operandStack.top();
 }
 

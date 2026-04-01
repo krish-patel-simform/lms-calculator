@@ -83,6 +83,7 @@ a{
     gap: var(--rem-default);
     border: 1px solid var(--background-dark);
     background-color: var(--background-dark);
+    overflow: auto;
 }
  
 /* calculator */
@@ -160,9 +161,7 @@ a{
         padding: 0 var(--rem-2);
         margin: var(--rem-010) 0;
  
-        &:first-child{
-   
-        }
+
    
         &:last-child{
             display: flex;
@@ -212,6 +211,9 @@ a{
     gap: var(--rem-020);
  
     & > button{
+        min-height: 0;
+        min-width: 0;
+        padding: var(--rem-020);
         border-radius: 4px;
         font-size: var(--rem-default);
     }
@@ -266,6 +268,8 @@ a{
     overflow-y: auto;
     overflow-x: auto;
     scrollbar-width: thin;
- 
+    display: flex;
+    flex-direction: column;
+    gap: var(--rem-default);
     color: var(--color-text-white);
 }
