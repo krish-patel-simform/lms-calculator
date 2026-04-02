@@ -20,7 +20,7 @@ class Calculator {
         let value = '';
         console.log("called")
         // until we did not get non digit
-        while (ind >= 0 && !Object.is(Number(screen.value.at(ind)), NaN)) {
+        while (ind >= 0 && !Object.is(Number(screen.value.at(ind)), NaN) || screen.value.at(ind) === '.') {
             console.log("before", screen.value)
             value = screen.value.at(ind) + value;
             screen.value = screen.value.slice(0, -1);
@@ -81,6 +81,12 @@ class Calculator {
     powerOf10() {
         const result = this.getNumberForOperation();
         screen.value += Math.pow(10, result);
+    }
+
+    ceil()
+    {
+        const result = this.getNumberForOperation();
+        screen.value += Math.ceil(result);
     }
 }
 
@@ -146,6 +152,9 @@ function handleEvent(value) {
         case 'powerOf10':
             calculator.powerOf10();
             break;
+        case 'ceil':
+            calculator.ceil();
+            break;
         default:
             screen.value += value;
     }
@@ -182,7 +191,7 @@ function updateHistory(expression,result)
     div.append(expressionEle);
     div.append(resultEle);
 
-    historyContainer.append(div)
+    historyContainer.prepend(div)
 }
 
 function showAllHistory()

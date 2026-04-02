@@ -25,9 +25,11 @@ const operaorOperands = {
     '-': 2,
     '*': 2,
     '/': 2,
+    '^' : 2,
     '%': 2,
     '√': 1,
     'log': 1,
+    'ln':1,
 }
 
 function isOperator(index) {
@@ -78,6 +80,9 @@ function evaluate(operator, operand1, operand2) {
             break;
         case 'log':
             result = Math.log10(operand2);
+            break;
+        case 'ln':
+            result = Math.log(operand2);
             break;
     }
     return result
@@ -135,6 +140,9 @@ function handleOperation(char) {
             break;
         case 'log':
             operatorStack.push(char);
+            break;
+        case 'ln':
+            operatorStack.push(char)
             break;
         default:
             operandStack.push(Number(char))
