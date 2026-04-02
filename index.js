@@ -4,7 +4,6 @@ import { infixEvalution } from './stack.js'
 const keyPad = document.querySelector('.calculator-operation__buttons')
 
 const screen = document.getElementById('screen')
-console.log(screen)
 
 const historyContainer = document.querySelector('.history__content')
 
@@ -18,14 +17,11 @@ class Calculator {
     getNumberForOperation() {
         let ind = screen.value.length - 1;
         let value = '';
-        console.log("called")
         // until we did not get non digit
         while (ind >= 0 && !Object.is(Number(screen.value.at(ind)), NaN) || screen.value.at(ind) === '.') {
-            console.log("before", screen.value)
             value = screen.value.at(ind) + value;
             screen.value = screen.value.slice(0, -1);
-            console.log("after", screen.value)
-            console.log("VAlue:", value)
+
             ind--;
 
         }
@@ -34,13 +30,11 @@ class Calculator {
 
     equals() {
         const result = infixEvalution(screen.value);
-        console.log("result:" + result);
-        console.log("type of result:",typeof result)
+
         
         // here result come so add to local storage
         if(!Number.isNaN(result))
         {
-            console.log("final we got the result")
             saveHistoy(screen.value,result)
         }
         screen.value = Number.isNaN(result) ? "Error" : result;
@@ -59,7 +53,6 @@ class Calculator {
         for (let i = 1; i <= n; i++) {
             fact *= i
         }
-        console.log("fact:s" + fact)
         return fact;
     }
 
@@ -112,7 +105,6 @@ document.addEventListener('keydown',(e)=>{
 
     if(regex.test(e.key))
     {
-        console.log("regex is true")
         handleEvent(e.key)
     }
     else if(e.key === 'Backspace')
@@ -158,7 +150,6 @@ function handleEvent(value) {
         default:
             screen.value += value;
     }
-    console.log(value);
 }
 
 function saveHistoy(expression,result)
@@ -202,7 +193,3 @@ function showAllHistory()
         updateHistory(expression,result)
     }
 }
-
-//^ pending task ?
-//e
-// mod and [x]

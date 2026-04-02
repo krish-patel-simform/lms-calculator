@@ -110,7 +110,6 @@ function handlePrecidence(currentOperator) {
             }
         }
     }
-    
     operatorStack.push(currentOperator)
     
 }
@@ -146,7 +145,6 @@ function handleOperation(char) {
             break;
         default:
             operandStack.push(Number(char))
-            console.log("after Pushing :", operandStack)
     }
 }
 
@@ -154,7 +152,6 @@ export function infixEvalution(expression) {
     operatorStack = new Array()
     operandStack = new Array()
     operandStack.push(0)
-    console.log(expression.length)
 
     let numberString = '';
     const charRegex = /^[a-zA-Z]+$/;
@@ -165,7 +162,6 @@ export function infixEvalution(expression) {
         if (!Number.isNaN(Number(expression[i])) || expression[i] === '.') {
             numberString += expression[i];
             if ((i < expression.length && Number.isNaN(Number(expression[i + 1])) && expression[i + 1] !== '.') || i === expression.length - 1) {
-                console.log("before handle:", numberString)
                 handleOperation(numberString)
                 numberString = '';
             }
@@ -173,7 +169,6 @@ export function infixEvalution(expression) {
         else {
             if (charRegex.test(expression[i])) {
                 //append it 
-                console.log("regex called", expression[i])
                 charString += expression[i];
             }
             else {
@@ -182,29 +177,16 @@ export function infixEvalution(expression) {
                     handleOperation(charString)
                     charString = '';
                 }
-                // check if function is there so first push it then push operator 
-
-                console.log("operator found:", expression[i])
                 handleOperation(expression[i])
             }
         }
     }
-
-    // console.log(operatorStack)
-    // console.log(operandStack)
-    //check if operatorStack is Empty
-    // console.log("Stack is Empty:",operatorStack.isEmpty())
     
     while (!operatorStack.isEmpty()) {
-        console.log("operatorStack is EMpty:", operatorStack.isEmpty())
         const operator = operatorStack.pop()
 
         const operand2 = operandStack.pop()
-        // const operand1 = operandStack.pop()
-        
-        
-        // console.log(operator, operand1, operand2)
-        // operandStack.push(evaluate(operator, operand1, operand2))
+       
         if(operaorOperands[operator] >= 2)
         {
             const operand1 = operandStack.pop()
@@ -216,22 +198,7 @@ export function infixEvalution(expression) {
         }
     }
 
-    console.log("Answer:",operandStack.top())
     return operandStack.top();
 }
 
-// infixEvalution("5+3")
-// infixEvalution("5+3*2")
-// infixEvalution("((5*2+3)+(2-3+5))")
-// infixEvalution("-5")
-// infixEvalution("((5*2+3)+(2-3*5))")
-
-// infixEvalution("(1/2)")
-// infixEvalution("2.5+2.5")
-
-//* case to be handle
-//! -89+89 ?
-//^ handle . case (might be handled)
-//! (1/2)
-//! handle unary with binary 
 
