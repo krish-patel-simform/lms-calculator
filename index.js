@@ -6,6 +6,22 @@ const keyPad = document.querySelector('.calculator-operation__buttons')
 const screen = document.getElementById('screen')
 
 const historyContainer = document.querySelector('.history__content')
+const historyIcon = document.getElementById('history-icon')
+
+const calculatorOpeEle = document.querySelector('.calculator-operation')
+const historyEle = document.querySelector('.history')
+
+if(document.documentElement.clientWidth <= 700)
+{
+    historyEle.classList.add('hidden')
+}
+
+historyIcon.addEventListener('click',()=>{
+    
+
+    calculatorOpeEle.classList.toggle('hidden')
+    historyEle.classList.toggle('hidden')
+})
 
 class Calculator {
 
@@ -188,8 +204,11 @@ function updateHistory(expression,result)
 function showAllHistory()
 {
     const history = JSON.parse(localStorage.getItem('history'));
-    for(const {expression,result} of history)
+    if(history)
     {
-        updateHistory(expression,result)
+        for(const {expression,result} of history)
+        {
+            updateHistory(expression,result)
+        }
     }
 }

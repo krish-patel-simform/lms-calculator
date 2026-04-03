@@ -1,8 +1,14 @@
 /* for large mobile view */
 @media screen and (max-width:700px)
 {
+    .container{
+        flex-direction: column;
+    }
     .history{
-        display: none;
+        flex: 6 ;
+        /* position: absolute;
+        top: 100%; */
+        /* display: none; */
     }
     .calculator-screen__functions {
         > div

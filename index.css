@@ -45,7 +45,10 @@ a{
     color: var(--color-text-white);
     text-decoration: none;
 }
- 
+
+
+
+
 /* utility classes */
 .btn{
     cursor: pointer;
@@ -84,6 +87,7 @@ a{
     border: 1px solid var(--background-dark);
     background-color: var(--background-dark);
     overflow: auto;
+    position: relative;
 }
  
 /* calculator */
@@ -105,7 +109,14 @@ a{
     gap: var(--rem-half);
     align-items: center;
     padding: var(--rem-default) 0;
+    justify-content: space-between;
  
+    & > div{
+        display: flex;
+        align-items: center;
+        gap: var(--rem-default);
+    }
+
     & > p{
         font-size: var(--font-md);
     }
@@ -272,4 +283,9 @@ a{
     flex-direction: column;
     gap: var(--rem-default);
     color: var(--color-text-white);
+}
+
+
+.hidden{
+    display: none;
 }
