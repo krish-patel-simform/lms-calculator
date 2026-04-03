@@ -8,7 +8,7 @@
         flex: 6 ;
         /* position: absolute;
         top: 100%; */
-        /* display: none; */
+        display: none;
     }
     .calculator-screen__functions {
         > div
