@@ -17,8 +17,6 @@ if(document.documentElement.clientWidth <= 700)
 }
 
 historyIcon.addEventListener('click',()=>{
-    
-
     calculatorOpeEle.classList.toggle('hidden')
     historyEle.classList.toggle('hidden')
 })
