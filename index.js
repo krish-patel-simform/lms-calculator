@@ -10,15 +10,46 @@ const historyIcon = document.getElementById('history-icon')
 
 const calculatorOpeEle = document.querySelector('.calculator-operation')
 const historyEle = document.querySelector('.history')
-
-if(document.documentElement.clientWidth <= 700)
-{
-    historyEle.classList.add('hidden')
-}
+const container = document.querySelector('.container');
+// if(document.documentElement.clientWidth <= 700)
+// {
+//     historyEle.classList.add('hidden')
+// }
 
 historyIcon.addEventListener('click',()=>{
-    calculatorOpeEle.classList.toggle('hidden')
-    historyEle.classList.toggle('hidden')
+    
+    container.classList.toggle('show-history');
+    // if(window.getComputedStyle(calculatorOpeEle).display === 'none')
+    // {
+    //     calculatorOpeEle.classList.remove('hidden')
+    //     calculatorOpeEle.classList.add('visible')
+    //     // calculatorOpeEle.style.display = 'flex';
+        
+    //     historyEle.classList.remove('visible')
+    //     historyEle.classList.add('hidden')
+    //     // historyEle.style.display = 'none'
+    // }
+    // else
+    // {
+    //     calculatorOpeEle.classList.remove('visible')
+    //     calculatorOpeEle.classList.add('hidden')
+    //     // calculatorOpeEle.style.display = 'none';
+        
+    //     historyEle.classList.remove('hidden')
+    //     historyEle.classList.add('visible')
+    //     // historyEle.style.display = 'flex'
+    // }
+    
+    // if(calculatorOpeEle.classList.contains('hidden'))
+    // {
+    //     calculatorOpeEle.classList.remove('hidden')
+    //     historyEle.classList.add('hidden')
+    // }
+    // else
+    // {
+    //     calculatorOpeEle.classList.add('hidden')
+    //     historyEle.classList.add('visible')
+    // }
 })
 
 class Calculator {
@@ -117,19 +148,19 @@ document.addEventListener('keydown',(e)=>{
 
     const regex = /^[\d+\-/*().]+$/;
 
-    if(regex.test(e.key))
-    {
-        handleEvent(e.key)
-    }
-    else if(e.key === 'Backspace')
-    {
-        handleEvent('erase')
-    }
-    else if(e.key === 'c' || e.key === 'C')
-    {
-        handleEvent('clear')
-    }
-    else if(e.key === 'Enter')
+    // if(regex.test(e.key))
+    // {
+    //     handleEvent(e.key)
+    // }
+    // else if(e.key === 'Backspace')
+    // {
+    //     handleEvent('erase')
+    // }
+    // if(e.key === 'c' || e.key === 'C')
+    // {
+    //     handleEvent('clear')
+    // }
+    if(e.key === 'Enter')
     {
         handleEvent('equals')
     }

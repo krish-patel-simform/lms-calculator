@@ -15,7 +15,7 @@
         flex: 6 ;
         /* position: absolute;
         top: 100%; */
-        /* display: none; */
+        display: none;
     }
     .calculator-screen__functions {
         > div
@@ -31,14 +31,22 @@
     {
         gap: var(--rem-half);
     }
+    .container.show-history .history {
+        display: flex;
+    }
+
+    .container.show-history .calculator-operation {
+        display: none;
+    }
 }
 
 @media screen and (min-width:701px)
 {
     .history{
-        display: flex;
+        display: flex !important;
     }
     .calculator-operation{
-        display: flex;
+        display: flex !important;
     }
 }
+ 

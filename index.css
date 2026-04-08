@@ -102,6 +102,7 @@ a{
     flex: 4 1 280px;
     display: flex;
     flex-direction: column;
+    padding: var(--rem-half);
 }
 .calculator-screen__hamburger{
     flex:2;
@@ -245,6 +246,7 @@ a{
     flex-direction: column;
     font-size: var(--font-default);
     overflow: hidden;
+    padding: var(--rem-half);
 }
  
 .history__nav{
@@ -284,9 +286,16 @@ a{
     flex-direction: column;
     gap: var(--rem-default);
     color: var(--color-text-white);
+
+    & > div{
+        background-color: rgba(73, 72, 72, 0.2);
+        padding: var(--rem-half);
+        border-radius: 5px;
+    }
 }
-
-
 .hidden{
     display: none;
+}
+.visible{
+    display: flex;
 }
