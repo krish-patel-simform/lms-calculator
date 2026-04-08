@@ -8,10 +8,9 @@ Array.prototype.top = function () {
 let operandStack;
 let operatorStack;
 
-const precidence = {
+const precedence = {
     '+': 1,
     '-': 1,
-    '*': 2,
     '/': 2,
     '*': 2,
     '%': 2,
@@ -33,7 +32,7 @@ const operaorOperands = {
 }
 
 function isOperator(index) {
-    return Boolean(precidence[operatorStack.at(index)])
+    return Boolean(precedence[operatorStack.at(index)])
 }
 
 
@@ -88,13 +87,13 @@ function evaluate(operator, operand1, operand2) {
     return result
 }
 
-function handlePrecidence(currentOperator) {
+function handlePrecedence(currentOperator) {
 
     if (isOperator(operatorStack.length - 1)) {
 
         // check for precidence
-        if (precidence[currentOperator] <= precidence[operatorStack.top()]) {
-            while (!operatorStack.isEmpty() && precidence[operatorStack.top()] >= precidence[currentOperator]) {
+        if (precedence[currentOperator] <= precedence[operatorStack.top()]) {
+            while (!operatorStack.isEmpty() && precedence[operatorStack.top()] >= precedence[currentOperator]) {
         
                 const operator = operatorStack.pop()
                 const operand2 = operandStack.pop()
@@ -128,11 +127,11 @@ function handleOperation(char) {
         case '*':
         case '/':
         case '%':
-            handlePrecidence(char)
+            handlePrecedence(char)
             break;
         case '+':
         case '-':
-            handlePrecidence(char)
+            handlePrecedence(char)
             break;
         case '√':
             operatorStack.push(char)
