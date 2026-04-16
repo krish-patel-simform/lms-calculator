@@ -11,45 +11,11 @@ const historyIcon = document.getElementById('history-icon')
 const calculatorOpeEle = document.querySelector('.calculator-operation')
 const historyEle = document.querySelector('.history')
 const container = document.querySelector('.container');
-// if(document.documentElement.clientWidth <= 700)
-// {
-//     historyEle.classList.add('hidden')
-// }
+
 
 historyIcon.addEventListener('click',()=>{
     
     container.classList.toggle('show-history');
-    // if(window.getComputedStyle(calculatorOpeEle).display === 'none')
-    // {
-    //     calculatorOpeEle.classList.remove('hidden')
-    //     calculatorOpeEle.classList.add('visible')
-    //     // calculatorOpeEle.style.display = 'flex';
-        
-    //     historyEle.classList.remove('visible')
-    //     historyEle.classList.add('hidden')
-    //     // historyEle.style.display = 'none'
-    // }
-    // else
-    // {
-    //     calculatorOpeEle.classList.remove('visible')
-    //     calculatorOpeEle.classList.add('hidden')
-    //     // calculatorOpeEle.style.display = 'none';
-        
-    //     historyEle.classList.remove('hidden')
-    //     historyEle.classList.add('visible')
-    //     // historyEle.style.display = 'flex'
-    // }
-    
-    // if(calculatorOpeEle.classList.contains('hidden'))
-    // {
-    //     calculatorOpeEle.classList.remove('hidden')
-    //     historyEle.classList.add('hidden')
-    // }
-    // else
-    // {
-    //     calculatorOpeEle.classList.add('hidden')
-    //     historyEle.classList.add('visible')
-    // }
 })
 
 class Calculator {
@@ -93,9 +59,10 @@ class Calculator {
         screen.value = screen.value.slice(0, -1)
     }
 
-    factorial(n) {
+    factorial() {
+        const result = this.getNumberForOperation();
         let fact = 1;
-        for (let i = 1; i <= n; i++) {
+        for (let i = 1; i <= result; i++) {
             fact *= i
         }
         return fact;
@@ -146,20 +113,6 @@ keyPad.addEventListener('click', (e) => {
 //* attach key event
 document.addEventListener('keydown',(e)=>{
 
-    const regex = /^[\d+\-/*().]+$/;
-
-    // if(regex.test(e.key))
-    // {
-    //     handleEvent(e.key)
-    // }
-    // else if(e.key === 'Backspace')
-    // {
-    //     handleEvent('erase')
-    // }
-    // if(e.key === 'c' || e.key === 'C')
-    // {
-    //     handleEvent('clear')
-    // }
     if(e.key === 'Enter')
     {
         handleEvent('equals')
@@ -181,7 +134,7 @@ function handleEvent(value) {
             calculator.eraseLast();
             break;
         case "factorial":
-            screen.value = screen.value.slice(0, -1) + +calculator.factorial(screen.value.at(-1))
+            screen.value = screen.value.slice(0, -1) + +calculator.factorial()
             break;
         case 'square':
             calculator.square();
