@@ -44,7 +44,7 @@ class Calculator {
 
         
         // here result come so add to local storage
-        if(!Number.isNaN(result))
+        if(!Number.isNaN(result) && result !== null)
         {
             saveHistoy(screen.value,result)
         }
