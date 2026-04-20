@@ -14,9 +14,10 @@ const precedence = {
     '/': 2,
     '*': 2,
     '%': 2,
-    '^': 3,
+    '√':3,
+    '^': 4,
     '(': 0,
-    ')': 0
+    ')': 0,
 }
 
 const operaorOperands = {
@@ -40,12 +41,22 @@ function handleClosing() {
     while (operatorStack.top() !== '(') {
         const operator = operatorStack.pop()
 
-        const operand2 = operandStack.pop()
         if (operaorOperands[operator] >= 2) {
-            const operand1 = operandStack.pop()
-            operandStack.push(evaluate(operator, operand1, operand2))
+            if(operandStack.length > 2)
+            {
+                const operand2 = operandStack.pop()
+                const operand1 = operandStack.pop()
+                operandStack.push(evaluate(operator, operand1, operand2))
+            }
+            else
+            {
+                // how to stop futher thing 
+                operandStack.push(NaN)
+                break;
+            }
         }
         else {
+            const operand2 = operandStack.pop()
             operandStack.push(evaluate(operator, undefined, operand2))
         }
 
@@ -90,19 +101,28 @@ function evaluate(operator, operand1, operand2) {
 function handlePrecedence(currentOperator) {
 
     if (isOperator(operatorStack.length - 1)) {
-
         // check for precidence
         if (precedence[currentOperator] <= precedence[operatorStack.top()]) {
             while (!operatorStack.isEmpty() && precedence[operatorStack.top()] >= precedence[currentOperator]) {
         
                 const operator = operatorStack.pop()
-                const operand2 = operandStack.pop()
-        
-                if (operaorOperands[operator] >= 2) {
-                    const operand1 = operandStack.pop()
-                    operandStack.push(evaluate(operator, operand1, operand2))
+                
+                if (operaorOperands[operator] >= 2 ) {
+                    if(operandStack.length > 2)
+                    {
+                        const operand2 = operandStack.pop()
+                        const operand1 = operandStack.pop()
+                        operandStack.push(evaluate(operator, operand1, operand2))
+                    }
+                    else 
+                    {
+                        // stop futher call 
+                        operandStack.push(NaN);
+                        break;
+                    }
                 }
-                else {
+                else if(operaorOperands[operator] == 1){
+                    const operand2 = operandStack.pop()
                     operandStack.push(evaluate(operator, undefined, operand2))
                 }
 
@@ -183,20 +203,32 @@ export function infixEvalution(expression) {
     
     while (!operatorStack.isEmpty()) {
         const operator = operatorStack.pop()
-
-        const operand2 = operandStack.pop()
        
         if(operaorOperands[operator] >= 2)
         {
-            const operand1 = operandStack.pop()
-            operandStack.push(evaluate(operator, operand1, operand2))
+            if(operandStack.length >2)
+            {
+                const operand2 = operandStack.pop()
+                const operand1 = operandStack.pop()
+                operandStack.push(evaluate(operator, operand1, operand2))
+            }
+            else
+            {
+                operandStack.push(NaN)
+                break;
+            }
         }
         else
         {
+            const operand2 = operandStack.pop()
             operandStack.push(evaluate(operator, undefined, operand2))
         }
     }
-
+    // cehck array that did not contains NaN
+    if(operandStack.some((ele)=> Number.isNaN(ele)))
+    {
+        return NaN
+    }
     return operandStack.top();
 }
 
