@@ -44,11 +44,13 @@ class Calculator {
 
         
         // here result come so add to local storage
-        if(!Number.isNaN(result) && result !== null)
+        if(!Number.isNaN(result) && result != null)
         {
             saveHistoy(screen.value,result)
+            screen.value =  result;
         }
-        screen.value = Number.isNaN(result) ? "Error" : result;
+        else
+            screen.value = "Error"
     }
 
     clearScreen() {
