@@ -36,8 +36,6 @@ const operaorOperands = {
 function isOperator(index) {
     return Boolean(precedence[operatorStack.at(index)])
 }
-
-
 function handleClosing() {
 
     if (operatorStack.top() === '(') {
@@ -48,11 +46,11 @@ function handleClosing() {
         }
     }
 
-    while (operatorStack.top() !== '(') {
+    while (!operatorStack.isEmpty() && operatorStack.top() !== '(') {
         const operator = operatorStack.pop()
 
         if (operaorOperands[operator] >= 2) {
-            if (operandStack.length > 2) {
+            if (operandStack.length >= 3) {
                 const operand2 = operandStack.pop()
                 const operand1 = operandStack.pop()
                 operandStack.push(evaluate(operator, operand1, operand2))
@@ -116,7 +114,7 @@ function handlePrecedence(currentOperator) {
                 const operator = operatorStack.pop()
 
                 if (operaorOperands[operator] >= 2) {
-                    if (operandStack.length > 2) {
+                    if (operandStack.length >= 3) {
                         const operand2 = operandStack.pop()
                         const operand1 = operandStack.pop()
                         operandStack.push(evaluate(operator, operand1, operand2))
@@ -129,6 +127,10 @@ function handlePrecedence(currentOperator) {
                 }
                 else if (operaorOperands[operator] == 1) {
                     const operand2 = operandStack.pop()
+                    if (operand2 === undefined) {
+                        operandStack.push(NaN);
+                        break;
+                    }
                     operandStack.push(evaluate(operator, undefined, operand2))
                 }
 
@@ -136,7 +138,6 @@ function handlePrecedence(currentOperator) {
         }
     }
     operatorStack.push(currentOperator)
-
 }
 
 function handleOperation(char) {
@@ -171,7 +172,7 @@ function handleOperation(char) {
         case 'log':
         case 'ln':
             if (lastTokenType === 'number' || lastTokenType === 'closeParen') {
-                handlePrecedence('*'); 
+                handlePrecedence('*');
             }
             operatorStack.push(char);
             lastTokenType = 'operator';
@@ -180,7 +181,6 @@ function handleOperation(char) {
             if (lastTokenType === 'closeParen') {
                 handlePrecedence('*'); // (4)5 → (4)*5
             }
-
             operandStack.push(Number(char));
             lastTokenType = 'number';
             break;
@@ -190,6 +190,7 @@ function handleOperation(char) {
 export function infixEvalution(expression) {
     operatorStack = new Array()
     operandStack = new Array()
+    lastTokenType = null
     operandStack.push(0)
 
     let numberString = '';
@@ -225,7 +226,7 @@ export function infixEvalution(expression) {
         const operator = operatorStack.pop()
 
         if (operaorOperands[operator] >= 2) {
-            if (operandStack.length > 2) {
+            if (operandStack.length >= 3) {
                 const operand2 = operandStack.pop()
                 const operand1 = operandStack.pop()
                 operandStack.push(evaluate(operator, operand1, operand2))
@@ -237,6 +238,10 @@ export function infixEvalution(expression) {
         }
         else {
             const operand2 = operandStack.pop()
+            if (operand2 === undefined) {
+                operandStack.push(NaN);
+                break;
+            }
             operandStack.push(evaluate(operator, undefined, operand2))
         }
     }
