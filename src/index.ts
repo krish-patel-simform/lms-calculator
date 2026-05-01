@@ -1,16 +1,17 @@
-import { infixEvalution } from './stack.js'
+import { infixEvalution } from './stack.ts'
 
 // Dom Manipulations
-const keyPad = document.querySelector('.calculator-operation__buttons')
+const keyPad = document.querySelector<HTMLDivElement>('.calculator-operation__buttons')!
 
-const screen = document.getElementById('screen')
+const screen = document.querySelector<HTMLInputElement>('#screen')!
 
-const historyContainer = document.querySelector('.history__content')
-const historyIcon = document.getElementById('history-icon')
+const historyContainer = document.querySelector<HTMLDivElement>('.history__content')!
+
+const historyIcon = document.querySelector<HTMLImageElement>('#history-icon')!
 
 const calculatorOpeEle = document.querySelector('.calculator-operation')
 const historyEle = document.querySelector('.history')
-const container = document.querySelector('.container');
+const container = document.querySelector<HTMLDivElement>('.container')!;
 
 
 historyIcon.addEventListener('click',()=>{
@@ -25,7 +26,7 @@ class Calculator {
         showAllHistory()
     }
 
-    getNumberForOperation() {
+    getNumberForOperation():number {
         let ind = screen.value.length - 1;
         let value = '';
         // until we did not get non digit
@@ -36,25 +37,31 @@ class Calculator {
             ind--;
 
         }
-        return value
+        return Number(value)
     }
 
     equals() {
-        const result = infixEvalution(screen.value);
-
-        
-        // here result come so add to local storage
-        if(!Number.isNaN(result) && result != null)
-        {
-            saveHistoy(screen.value,result)
-            screen.value =  result;
+        try {
+            const result = infixEvalution(screen.value);
+            console.log("index.js called")
+            
+            // here result come so add to local storage
+            if(!Number.isNaN(result) && result != null)
+            {
+                saveHistoy(screen.value,result.toString())
+                screen.value =  result.toString();
+            }
+            
+        } catch (error) {
+            console.log(error)
+            screen.value = ""
+            screen.setAttribute('placeholder',"Error") 
         }
-        else
-            screen.value = "Error"
     }
 
     clearScreen() {
         screen.value = ""
+        screen.setAttribute('placeholder',"0") 
     }
 
     eraseLast() {
@@ -99,15 +106,25 @@ class Calculator {
 
 const calculator = new Calculator()
 
-//* attack and onClick event
+//*onClick event
 
-keyPad.addEventListener('click', (e) => {
+keyPad.addEventListener('click', (e:PointerEvent) => {
 
-    const button = e.target.closest('.btn')
+    const target = e.target as HTMLElement;
+
+    if(!target)
+        return
+
+
+    const button = target.closest<HTMLButtonElement>('.btn')
     if (!button) return;
 
-    handleEvent(button.dataset.value)
-
+    const type = button.dataset.value
+    if(type)
+    {
+        console.log("click event called")
+        handleEvent(type)
+    }
     e.stopPropagation();
 })
 
@@ -123,7 +140,12 @@ document.addEventListener('keydown',(e)=>{
 
 //^ utility function
 
-function handleEvent(value) {
+type HistoryType = {
+    expression:string,
+    result:string
+}
+
+function handleEvent(value:string) {
 
     switch (value) {
         case "equals":
@@ -152,9 +174,9 @@ function handleEvent(value) {
     }
 }
 
-function saveHistoy(expression,result)
+function saveHistoy(expression:string,result:string)
 {
-    const history = JSON.parse(localStorage.getItem('history')) || [];
+    const history = JSON.parse(localStorage.getItem('history')?? "[]") ;
 
     if(history.length > 15)
         history.shift();
@@ -169,7 +191,7 @@ function saveHistoy(expression,result)
     localStorage.setItem('history',JSON.stringify(history))
 }
 
-function updateHistory(expression,result)
+function updateHistory(expression:string,result:string)
 {
     const div = document.createElement('div')
     
@@ -187,7 +209,7 @@ function updateHistory(expression,result)
 
 function showAllHistory()
 {
-    const history = JSON.parse(localStorage.getItem('history'));
+    const history = JSON.parse(localStorage.getItem('history') ?? "[]");
     if(history)
     {
         for(const {expression,result} of history)
