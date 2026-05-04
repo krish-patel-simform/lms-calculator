@@ -9,8 +9,6 @@ const historyContainer = document.querySelector<HTMLDivElement>('.history__conte
 
 const historyIcon = document.querySelector<HTMLImageElement>('#history-icon')!
 
-const calculatorOpeEle = document.querySelector('.calculator-operation')
-const historyEle = document.querySelector('.history')
 const container = document.querySelector<HTMLDivElement>('.container')!;
 
 
@@ -77,30 +75,30 @@ class Calculator {
         return fact;
     }
 
-    sqrt() {
-        const result = this.getNumberForOperation();
-        screen.value += Math.sqrt(result)
-    }
-
     square() {
         const result = this.getNumberForOperation()
-        screen.value += Math.pow(result, 2);
-    }
-
-    log() {
-        const result = this.getNumberForOperation();
-        screen.value += Math.log10(result)
+        if(result)
+            screen.value += Math.pow(result, 2);
+        else
+            screen.setAttribute('placeholder',"Error")
     }
 
     powerOf10() {
         const result = this.getNumberForOperation();
-        screen.value += Math.pow(10, result);
+        if(result)
+            screen.value += Math.pow(10, result);
+        else
+            screen.setAttribute('placeholder',"Error")
     }
 
     ceil()
     {
         const result = this.getNumberForOperation();
-        screen.value += Math.ceil(result);
+        if(result)
+            screen.value += Math.ceil(result);
+        else
+            screen.setAttribute('placeholder',"Error")
+
     }
 }
 
@@ -140,11 +138,6 @@ document.addEventListener('keydown',(e)=>{
 
 //^ utility function
 
-type HistoryType = {
-    expression:string,
-    result:string
-}
-
 function handleEvent(value:string) {
 
     switch (value) {
@@ -158,7 +151,8 @@ function handleEvent(value:string) {
             calculator.eraseLast();
             break;
         case "factorial":
-            screen.value = screen.value.slice(0, -1) + +calculator.factorial()
+            // screen.value = screen.value.slice(0, -1) + 
+            screen.value +=  +calculator.factorial()
             break;
         case 'square':
             calculator.square();
@@ -210,7 +204,7 @@ function updateHistory(expression:string,result:string)
 function showAllHistory()
 {
     const history = JSON.parse(localStorage.getItem('history') ?? "[]");
-    if(history)
+    if(history.length>0)
     {
         for(const {expression,result} of history)
         {
