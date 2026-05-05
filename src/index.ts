@@ -151,8 +151,8 @@ function handleEvent(value:string) {
             calculator.eraseLast();
             break;
         case "factorial":
-            // screen.value = screen.value.slice(0, -1) + 
-            screen.value +=  +calculator.factorial()
+            screen.value = screen.value.slice(0, -1) +  +calculator.factorial()
+            // screen.value +=  +calculator.factorial()
             break;
         case 'square':
             calculator.square();
