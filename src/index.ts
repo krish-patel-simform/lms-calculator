@@ -204,11 +204,9 @@ function updateHistory(expression:string,result:string)
 function showAllHistory()
 {
     const history = JSON.parse(localStorage.getItem('history') ?? "[]");
-    if(history.length>0)
+    
+    for(const {expression,result} of history)
     {
-        for(const {expression,result} of history)
-        {
-            updateHistory(expression,result)
-        }
+        updateHistory(expression,result)
     }
 }
