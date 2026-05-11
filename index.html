@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lms Calculator</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./responsive.css">
+
+    <!-- <script defer type="module" src="./dist/stack.js"></script>
+    <script defer type="module" src="./dist/index.js"></script> -->
+
+    <script defer type="module" src="./stack.js"></script>
+    <script defer type="module" src="./index.js"></script>
+        <!-- <script defer type="module" src="./stack.js"></script> -->
+
+</head>
+<body class="main-container">
+    <main class="container">
+ 
+        <!-- calculator section -->
+        <section class="calculator">
+            <!-- scren -->
+            <section class="calculator-screen">
+                <!-- hamburger -->
+                <div class="calculator-screen__hamburger">
+                    <div>
+                        <!-- hamburger logo -->
+                         <img src="./icons/icons8-menu-30.png" alt="hamburger"/>
+     
+                        <p>Scientific</p>
+                    </div>
+                    <div>
+                        <img class="hidden" src="./icons/icons8-history-30.png" alt="history" id="history-icon"/>
+                    </div>
+                </div>
+ 
+                <!-- screen -->
+                <div class="calculator-screen__display">
+                    <div class="calculator-screen__display--wrapper">
+                        <input type="text" id="screen" placeholder="0"/>
+                    </div>
+                </div>
+ 
+                <!-- math function -->
+                <div class="calculator-screen__functions">
+ 
+                    <div>
+                        <button class="btn nobg">DEG</button>
+                        <button class="btn nobg">F-E</button>
+                    </div>
+                    <div>
+                        <button class="btn nobg muted-text">MC</button>
+                        <button class="btn nobg muted-text">MR</button>
+                        <button class="btn nobg">M+</button>
+                        <button class="btn nobg">M-</button>
+                        <button class="btn nobg">MS</button>
+                    </div>
+ 
+                </div>
+            </section>
+ 
+            <!-- operations -->
+            <section class="calculator-operation">
+ 
+                <div class="calculator-operation__functions">
+ 
+                    <button class="btn nobg">
+                        <img src="./icons/icons8-trigonometry-30.png"
+                        >
+                        <span>Trigonometry</span>
+                    </button>
+                    <button class="btn nobg">
+                        <img src="./icons/icons8-formula-fx-30.png" alt="functions" /> <span>Functions</span>
+                    </button>
+ 
+                </div>
+ 
+                <div class="calculator-operation__buttons">
+ 
+                    <button disabled class="btn">2<sup>nd</sup</button>
+                    <button data-value="3.14" class="btn">&pi;</button>
+                    <button data-value="2.71" class="btn">e</button>
+                    <button data-value="clear" class="btn">C</button>
+                    <button data-value="erase" class="btn"><img src="./icons/icons8-remove-30.png" alt="Erase" /></button>
+                    <button data-value="square" class="btn">x<sup>2</sup></button>
+                    <button data-value="(1/"  class="btn">1/x</button>
+                    <button data-value="ceil" class="btn">⌈x⌉</button>
+                    <button data-value="*10^" class="btn">exp</button>
+                    <button data-value="%" class="btn">%</button>
+                    <button data-value="√(" class="btn">&radic;x</button>
+                    <button data-value="(" class="btn">(</button>
+                    <button data-value=")" class="btn">)</button>
+                    <button data-value="factorial" class="btn">n!</button>
+                    <button data-value="/" class="btn">&divide;</button>
+                    <button data-value="^" class="btn">x<sup>y</sup></button>
+                    <button data-value="7" class="btn calculator-operation__buttons--light">7</button>
+                    <button data-value="8" class="btn calculator-operation__buttons--light">8</button>
+                    <button data-value="9" class="btn calculator-operation__buttons--light">9</button>
+                    <button data-value="*" class="btn">&times;</button>
+                    <button data-value="powerOf10" class="btn">10<sup>x</sup></button>
+                    <button data-value="4" class="btn calculator-operation__buttons--light">4</button>
+                    <button data-value="5" class="btn calculator-operation__buttons--light">5</button>
+                    <button data-value="6" class="btn calculator-operation__buttons--light">6</button>
+                    <button data-value="-" class="btn">&minus;</button>
+                    <button data-value="log(" class="btn">log</button>
+                    <button data-value="1" class="btn calculator-operation__buttons--light">1</button>
+                    <button data-value="2" class="btn calculator-operation__buttons--light">2</button>
+                    <button data-value="3" class="btn calculator-operation__buttons--light">3</button>
+                    <button data-value="+" class="btn">&plus;</button>
+                    <button data-value="ln(" class="btn">ln</button>
+                    <button disabled class="btn calculator-operation__buttons--light">±</button>
+                    <button data-value="0" class="btn calculator-operation__buttons--light">0</button>
+                    <button data-value="." class="btn calculator-operation__buttons--light">.</button>
+                    <button data-value="equals" class="btn">=</button> 
+                </div>
+
+            </section>
+ 
+        </section>
+   
+        <!-- history section -->
+        <section class="history">
+ 
+            <!-- nav -->
+            <nav class="history__nav">
+                <li><a href="#">History</a></li>
+                <li><a href="#">Memory</a></li>
+            </nav>
+ 
+            <article class="history__content">
+              
+            </article>
+        </section>
+ 
+ 
+    </main>
+
+
+</body>
+</html>
+ 
