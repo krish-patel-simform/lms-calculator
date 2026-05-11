@@ -79,12 +79,10 @@ function isOperator(index: number): boolean {
 }
 
 function handleClosing() {
-    if (operatorStack.top() === "(") {
+    if (operatorStack.top() === "(" && lastTokenType === "openParen") {
         // check if previous token was '(' → means empty ()
-        if (lastTokenType === "openParen") {
-            operandStack.push(NaN);
-            throw new Error("Invalid Expression")
-        }
+        operandStack.push(NaN);
+        throw new Error("Invalid Expression")
     }
 
     while (!operatorStack.isEmpty() && operatorStack.top() !== "(") {
@@ -92,7 +90,7 @@ function handleClosing() {
         if (!operator || !isRealOperator(operator)) continue;
 
         if (isRealOperator(operator) && operaorOperands[operator] >= 2) {
-            if (operandStack.length >= 2) {
+            if (operandStack.length >= 2 && isBinaryOperator(operator)) {
                 const operand2 = operandStack.pop();
                 const operand1 = operandStack.pop();
 
@@ -100,12 +98,11 @@ function handleClosing() {
                 if (operand1 == undefined || operand2 == undefined)
                     throw new Error("Operand 1 or Operand 2 is required for binary operator");
 
-                if (isBinaryOperator(operator)) {
-                    operandStack.push(evaluate(operator, operand1, operand2));
-                }
+                operandStack.push(evaluate(operator, operand1, operand2));
             } else {
-                operandStack.push(NaN);
-                break;
+                // operandStack.push(NaN);
+                throw new Error("Operand 1 or Operand 2 is required for binary operator")
+                // break;
             }
         } else {
             const operand2 = operandStack.pop();
@@ -127,7 +124,7 @@ function evaluate(
     operand2: number,
 ): number;
 function evaluate(operator: UnaryOperator, operand1: number): number;
-function evaluate(operator: OperatorType, operand1: number, operand2?: number) {
+function evaluate(operator: BinaryOperator | UnaryOperator, operand1: number, operand2?: number) {
     let result;
 
     if (isBinaryOperator(operator) && operand2 != undefined) {
@@ -184,16 +181,14 @@ function handlePrecedence(currentOperator: OperatorType) {
                     if (!operator) break;
 
                     if (isRealOperator(operator) && operaorOperands[operator] >= 2) {
-                        if (operandStack.length >= 2) {
+                        if (operandStack.length >= 2 && isBinaryOperator(operator)) {
                             const operand2 = operandStack.pop();
                             const operand1 = operandStack.pop();
 
                             if (operand1 == undefined || operand2 == undefined)
                                 throw new Error("Operand 1 or Operand 2 is required for binary operator");
 
-                            if (isBinaryOperator(operator)) {
-                                operandStack.push(evaluate(operator, operand1, operand2));
-                            }
+                            operandStack.push(evaluate(operator, operand1, operand2));
                         } else {
                             // stop futher call
                             operandStack.push(NaN);
@@ -201,15 +196,14 @@ function handlePrecedence(currentOperator: OperatorType) {
                         }
                     } else if (
                         isRealOperator(operator) &&
-                        operaorOperands[operator] == 1
+                        operaorOperands[operator] == 1 &&
+                        isUnaryOperator(operator)
                     ) {
                         const operand2 = operandStack.pop();
                         if (operand2 == undefined) {
                             throw new Error("One Operand is required for unary operator")
                         }
-                        if (isUnaryOperator(operator)) {
-                            operandStack.push(evaluate(operator, operand2));
-                        }
+                        operandStack.push(evaluate(operator, operand2));
                     }
                 }
             }
@@ -238,9 +232,6 @@ function handleOperation(char: string) {
             break;
         case "*":
         case "/":
-            handlePrecedence(char);
-            lastTokenType = "operator";
-            break;
         case "%":
             handlePrecedence(char);
             lastTokenType = "operator";
@@ -303,7 +294,8 @@ export function infixEvalution(expression: string) {
         if (!Number.isNaN(Number(expression[i])) || expression[i] === ".") {
             numberString += expression[i];
             if (
-                (i < expression.length &&
+                (
+                    // i < expression.length &&
                     Number.isNaN(Number(expression[i + 1])) &&
                     expression[i + 1] !== ".") ||
                 i === expression.length - 1
@@ -343,16 +335,14 @@ export function infixEvalution(expression: string) {
             throw new Error("Invalid Expression")
 
         if (operaorOperands[operator] >= 2) {
-            if (operandStack.length >= 2) {
+            if (operandStack.length >= 2 && isBinaryOperator(operator)) {
                 const operand2 = operandStack.pop();
                 const operand1 = operandStack.pop();
 
                 if (operand1 == undefined || operand2 == undefined)
                     throw new Error("Operand 1 or Operand 2 is required for binary operator");
                 
-                if (isBinaryOperator(operator)) {
-                    operandStack.push(evaluate(operator, operand1, operand2));
-                }
+                operandStack.push(evaluate(operator, operand1, operand2));
             } else {
                 operandStack.push(NaN);
                 break;
