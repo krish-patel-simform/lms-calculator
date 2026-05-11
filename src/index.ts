@@ -44,11 +44,11 @@ class Calculator {
             console.log("index.js called")
             
             // here result come so add to local storage
-            if(!Number.isNaN(result) && result != null)
-            {
-                saveHistoy(screen.value,result.toString())
-                screen.value =  result.toString();
-            }
+            saveHistoy(screen.value,result.toString())
+            screen.value =  result.toString();
+            // if(!Number.isNaN(result) && result != null)
+            // {
+            // }
             
         } catch (error) {
             console.log(error)
